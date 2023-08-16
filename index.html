@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Calculator</title>
+		<link
+			rel="stylesheet"
+			href="styles.css"
+		/>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<div
+			id="calculator"
+			class="container"
+		>
+			<div>
+				<p id="display">0</p>
+			</div>
+			<div id="buttons">
+				<div class="row">
+					<button
+						data-tool="clearAll"
+						class="btn col"
+					>
+						AC
+					</button>
+					<button
+						data-tool="plusMin"
+						class="btn col"
+					>
+						+/-
+					</button>
+					<button
+						data-tool="percent"
+						class="btn col"
+					>
+						&#160;%&#160;
+					</button>
+					<button
+						data-tool="divide"
+						class="btn col"
+					>
+						&#160;/&#160;
+					</button>
+				</div>
+				<div class="row">
+					<button class="btn col">7</button>
+					<button class="btn col">8</button>
+					<button class="btn col">9</button>
+					<button
+						data-tool="multiply"
+						class="btn col"
+					>
+						&#160;*&#160;
+					</button>
+				</div>
+				<div class="row">
+					<button class="btn col">4</button>
+					<button class="btn col">5</button>
+					<button class="btn col">6</button>
+					<button
+						data-tool="substract"
+						class="btn col"
+					>
+						&#160;-&#160;
+					</button>
+				</div>
+				<div class="row">
+					<button class="btn col">1</button>
+					<button class="btn col">2</button>
+					<button class="btn col">3</button>
+					<button
+						data-tool="add"
+						class="btn col"
+					>
+						&#160;+&#160;
+					</button>
+				</div>
+				<div class="row">
+					<button
+						data-tool="clear"
+						class="btn col"
+					>
+						C
+					</button>
+					<button class="btn col">0</button>
+					<button
+						data-tool="decimal"
+						class="btn col"
+					>
+						.
+					</button>
+					<button
+						data-tool="equal"
+						class="btn col"
+					>
+						=
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="app.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>
