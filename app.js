@@ -23,24 +23,34 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool === 'plusMin') {
-		sliced.unshift('-');
-		sliced.join('');
+		// const lastInd = slicedPerSpaced.length - 1;
+		// if (slicedPerSpaced[lastInd] !== /\s/) {
+		// 	display.innerText = slicedPerSpaced.splice(lastInd, 0, '-');
+		// }
 	}
 
 	if (tool === 'percent') {
-		display.innerText += buttonContent;
+		if (!/\W$/.test(displayContent)) {
+			display.innerText += buttonContent;
+		}
 	}
 
 	if (tool === 'divide') {
-		display.innerText += buttonContent;
+		if (!/\W$/.test(displayContent)) {
+			display.innerText += buttonContent;
+		}
 	}
 
 	if (tool === 'multiply') {
-		display.innerText += buttonContent;
+		if (!/\W$/.test(displayContent)) {
+			display.innerText += buttonContent;
+		}
 	}
 
 	if (tool === 'substract') {
-		display.innerText += buttonContent;
+		if (!/\W$/.test(displayContent)) {
+			display.innerText += buttonContent;
+		}
 	}
 
 	if (tool === 'add') {
@@ -50,6 +60,10 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool === 'clear') {
+		if (sliced[sliced.length - 1] === ' ') {
+			sliced.splice(sliced.length, 2);
+			display.innerText = sliced.join('');
+		}
 		sliced.pop();
 		display.innerText = sliced.join('');
 		if (displayContent.length <= 1) {
@@ -58,8 +72,16 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool === 'decimal') {
-		if (!displayContent.includes(buttonContent)) {
-			display.innerText += buttonContent;
+		if (!/\W$/.test(slicedPerSpaced[slicedPerSpaced.length - 1])) {
+			const slicedForDecimal = slicedPerSpaced.slice(-1);
+			if (
+				!slicedForDecimal[0].includes(buttonContent) &&
+				slicedForDecimal[0] !== ''
+			) {
+				slicedForDecimal[0] += buttonContent;
+				slicedPerSpaced.splice(-1, 1, slicedForDecimal);
+			}
+			display.innerText = slicedPerSpaced.join(' ');
 		}
 	}
 
