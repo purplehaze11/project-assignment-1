@@ -51,6 +51,18 @@ buttons.addEventListener('click', (e) => {
 		}
 	}
 
+	if (tool == 'clearAll') {
+		curCalc.innerText = '';
+		prevCalc.innerText = '';
+	}
+
+	if (tool == 'clear') {
+		curCalc.innerText = curText.slice(0, -1);
+		if (curText == '') {
+			prevCalc.innerText = prevText.slice(0, -1);
+		}
+	}
+
 	if (tool == 'decimal') {
 		if (curText != '' && !curText.includes(buttonContent) && curText != /\W$/) {
 			curCalc.innerText += buttonContent;
