@@ -43,7 +43,7 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool == 'decimal') {
-		if (curText != '' && !curText.includes(buttonContent) && curText != /\w/g) {
+		if (curText != '' && !curText.includes(buttonContent) && curText != /\W$/) {
 			curCalc.innerText += buttonContent;
 		}
 	}
