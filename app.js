@@ -12,7 +12,7 @@ buttons.addEventListener('click', (e) => {
 	const lastCurText = curText[curText.length - 1];
 	const lastPrevText = prevText[prevText.length - 1];
 
-	if (!tool) {
+	if (tool == 'number') {
 		if (curText.includes('+')) {
 			prevCalc.innerText = curText;
 			curCalc.innerText = '';
