@@ -42,6 +42,15 @@ buttons.addEventListener('click', (e) => {
 		}
 	}
 
+	if (tool == 'plusMin') {
+		if (curText[0] != '-' && curText != '') {
+			const minus = '-';
+			curCalc.innerText = minus + curText;
+		} else if (curText[0] == '-') {
+			curCalc.innerText = curText.slice(1);
+		}
+	}
+
 	if (tool == 'decimal') {
 		if (curText != '' && !curText.includes(buttonContent) && curText != /\W$/) {
 			curCalc.innerText += buttonContent;
@@ -98,8 +107,6 @@ buttons.addEventListener('click', (e) => {
 			curText != '' &&
 			lastCurText != '-' &&
 			lastPrevText != '-'
-			// !curText.includes(buttonContent) &&
-			// !prevText.includes(buttonContent)
 		) {
 			curCalc.innerText += buttonContent;
 		}
