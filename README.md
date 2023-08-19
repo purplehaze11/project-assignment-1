@@ -12,3 +12,5 @@ Untuk menghapus semua (CA), gunakan 'Delete'.
 Titik (.) dapat ditambahkan setelah angka.
 
 Untuk mengubah angka menjadi negatif dan vice versa, gunakan '\_' ('Shift' + '-'). Untuk mengubah angka menjadi negatif, diharuskan terdapat satu angka di dalam input. Contoh: Apabila ada angka '5' pada input, maka bila kita menekan tombol '\_' angka '5' akan berubah menjadi '-5' pada display.
+
+Untuk melihat hasil, dapat digunakan tombol '=' dan 'Enter'. Untuk tombol enter, pastikan tombol pada kalkulator tidak tertekan agar tombol enter tetap digunakan untuk menampilkan hasil.
