@@ -27,7 +27,7 @@ button:active {
 	height: 80%;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 700px) {
 	#calculator {
 		max-width: 50%;
 	}
