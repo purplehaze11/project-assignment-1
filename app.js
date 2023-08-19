@@ -149,6 +149,10 @@ buttons.addEventListener('click', (e) => {
 			isLastPrevText,
 			buttonContent
 		);
+		if (lastCurText != '.' && curText != '' && operator.some(isLastPrevText)) {
+			calculate(prevText, curText, prevCalc, curCalc, lastCurText);
+			curCalc.innerText += buttonContent;
+		}
 	}
 
 	if (tool == 'equal') {
@@ -176,8 +180,13 @@ document.addEventListener('keydown', (e) => {
 		decimal(curText, isLastCurText);
 	}
 
-	if (e.key.match(/[+\-*\/%]/g)) {
+	if (e.key.match(/[%+\-*\/]/g)) {
+		e.preventDefault;
 		operation(lastCurText, curText, isLastCurText, isLastPrevText, e.key);
+		if (lastCurText != '.' && curText != '' && operator.some(isLastPrevText)) {
+			calculate(prevText, curText, prevCalc, curCalc, lastCurText);
+			curCalc.innerText += e.key;
+		}
 	}
 
 	if (e.key.match(/[0-9]/g)) {
@@ -188,7 +197,8 @@ document.addEventListener('keydown', (e) => {
 		plusMin(curText);
 	}
 
-	if (e.key == '=') {
+	if (e.key == '=' || e.key === 'Enter') {
+		e.preventDefault;
 		calculate(prevText, curText, prevCalc, curCalc, lastCurText);
 	}
 });
