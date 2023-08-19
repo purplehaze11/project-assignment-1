@@ -4,6 +4,89 @@ const curCalc = document.querySelector('#curCalc');
 
 const operator = ['+', '-', '*', '/', '%'];
 
+const calculate = (prevText, curText, lastPrevText, lastCurText) => {
+	if (prevText.includes('*') && curText != '' && lastCurText != '.') {
+		curCalc.innerText = parseFloat(prevText) * parseFloat(curText);
+		prevCalc.innerText = '';
+	}
+	if (prevText.includes('+') && curText != '' && lastCurText != '.') {
+		curCalc.innerText = parseFloat(prevText) + parseFloat(curText);
+		prevCalc.innerText = '';
+	}
+	if (prevText.includes('/') && curText != '' && lastCurText != '.') {
+		curCalc.innerText = parseFloat(prevText) / parseFloat(curText);
+		prevCalc.innerText = '';
+	}
+	if (prevText.includes('%') && curText != '' && lastCurText != '.') {
+		curCalc.innerText = parseFloat(prevText) * (parseFloat(curText) / 100);
+		prevCalc.innerText = '';
+	}
+	if (lastPrevText == '-' && curText != '' && lastCurText != '.') {
+		curCalc.innerText = parseFloat(prevText) - parseFloat(curText);
+		prevCalc.innerText = '';
+	}
+};
+
+const addNumber = (lastCurText, curText, operand) => {
+	operator.forEach((operator) => {
+		if (lastCurText == operator) {
+			prevCalc.innerText = curText;
+			curCalc.innerText = '';
+		}
+	});
+
+	if (curText == '') {
+		curCalc.innerText = operand;
+	} else if (curText == '0') {
+		curCalc.innerText += `.${operand}`;
+	} else if (curText.length < 15) {
+		curCalc.innerText += operand;
+	}
+};
+
+const clear = (curText, prevText) => {
+	curCalc.innerText = curText.slice(0, -1);
+	if (curText.length == 2 && curText[0] == '-') {
+		curCalc.innerText = curText.slice(0, -2);
+	}
+	if (curText == '') {
+		curCalc.innerText = prevText.slice(0, -1);
+		prevCalc.innerText = '';
+	}
+};
+
+const clearAll = () => {
+	curCalc.innerText = '';
+	prevCalc.innerText = '';
+};
+
+const decimal = (curText, isLastCurText) => {
+	if (
+		curText != '' &&
+		!curText.includes('.') &&
+		!operator.some(isLastCurText)
+	) {
+		curCalc.innerText += '.';
+	}
+};
+
+const operation = (
+	lastCurText,
+	curText,
+	isLastCurText,
+	isLastPrevText,
+	operand
+) => {
+	if (
+		lastCurText != '.' &&
+		curText != '' &&
+		!operator.some(isLastCurText) &&
+		!operator.some(isLastPrevText)
+	) {
+		curCalc.innerText += operand;
+	}
+};
+
 buttons.addEventListener('click', (e) => {
 	const button = e.target;
 	const tool = button.dataset.tool;
@@ -16,20 +99,7 @@ buttons.addEventListener('click', (e) => {
 	const isLastPrevText = (element) => element === lastPrevText;
 
 	if (tool == 'number') {
-		operator.forEach((operator) => {
-			if (lastCurText == operator) {
-				prevCalc.innerText = curText;
-				curCalc.innerText = '';
-			}
-		});
-
-		if (curText == '') {
-			curCalc.innerText = buttonContent;
-		} else if (curText == '0') {
-			curCalc.innerText += `.${buttonContent}`;
-		} else if (curText.length < 15) {
-			curCalc.innerText += buttonContent;
-		}
+		addNumber(lastCurText, curText, buttonContent);
 	}
 
 	if (tool == 'plusMin') {
@@ -42,62 +112,59 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool == 'clearAll') {
-		curCalc.innerText = '';
-		prevCalc.innerText = '';
+		clearAll();
 	}
 
 	if (tool == 'clear') {
-		curCalc.innerText = curText.slice(0, -1);
-		if (curText.length == 2 && curText[0] == '-') {
-			curCalc.innerText = curText.slice(0, -2);
-		}
-		if (curText == '') {
-			curCalc.innerText = prevText.slice(0, -1);
-			prevCalc.innerText = '';
-		}
+		clear(curText, prevText);
 	}
 
 	if (tool == 'decimal') {
-		if (
-			curText != '' &&
-			!curText.includes(buttonContent) &&
-			!operator.some(isLastCurText)
-		) {
-			curCalc.innerText += buttonContent;
-		}
+		decimal(curText, isLastCurText);
 	}
 
 	if (tool == 'operator') {
-		if (
-			lastCurText != '.' &&
-			curText != '' &&
-			!operator.some(isLastCurText) &&
-			!operator.some(isLastPrevText)
-		) {
-			curCalc.innerText += buttonContent;
-		}
+		operation(
+			lastCurText,
+			curText,
+			isLastCurText,
+			isLastPrevText,
+			buttonContent
+		);
 	}
 
 	if (tool == 'equal') {
-		if (prevText.includes('*') && curText != '' && lastCurText != '.') {
-			curCalc.innerText = parseFloat(prevText) * parseFloat(curText);
-			prevCalc.innerText = '';
-		}
-		if (prevText.includes('+') && curText != '' && lastCurText != '.') {
-			curCalc.innerText = parseFloat(prevText) + parseFloat(curText);
-			prevCalc.innerText = '';
-		}
-		if (prevText.includes('/') && curText != '' && lastCurText != '.') {
-			curCalc.innerText = parseFloat(prevText) / parseFloat(curText);
-			prevCalc.innerText = '';
-		}
-		if (prevText.includes('%') && curText != '' && lastCurText != '.') {
-			curCalc.innerText = parseFloat(prevText) * (parseFloat(curText) / 100);
-			prevCalc.innerText = '';
-		}
-		if (lastPrevText == '-' && curText != '' && lastCurText != '.') {
-			curCalc.innerText = parseFloat(prevText) - parseFloat(curText);
-			prevCalc.innerText = '';
-		}
+		calculate(prevText, curText, prevCalc, curCalc, lastPrevText, lastCurText);
+	}
+});
+
+document.addEventListener('keydown', (e) => {
+	const curText = curCalc.innerText;
+	const prevText = prevCalc.innerText;
+	const lastCurText = curText[curText.length - 1];
+	const lastPrevText = prevText[prevText.length - 1];
+	const isLastCurText = (element) => element === lastCurText;
+	const isLastPrevText = (element) => element === lastPrevText;
+
+	// let operators = /[+\-*\/]/g;
+
+	if (e.key == 'Backspace') {
+		clear(curText, prevText);
+	}
+
+	if (e.key == 'Delete') {
+		clearAll();
+	}
+
+	if (e.key == '.') {
+		decimal(curText, isLastCurText);
+	}
+
+	if (e.key.match(/[+\-*\/%]/g)) {
+		operation(lastCurText, curText, isLastCurText, isLastPrevText, e.key);
+	}
+
+	if (e.key.match(/[0-9]/g)) {
+		addNumber(lastCurText, curText, e.key);
 	}
 });
