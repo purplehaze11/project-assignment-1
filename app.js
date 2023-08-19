@@ -1,7 +1,8 @@
 const buttons = document.querySelector('#buttons');
 const prevCalc = document.querySelector('#prevCalc');
 const curCalc = document.querySelector('#curCalc');
-const operator = document.querySelectorAll('.operator');
+
+const operator = ['+', '-', '*', '/', '%'];
 
 buttons.addEventListener('click', (e) => {
 	const button = e.target;
@@ -11,28 +12,17 @@ buttons.addEventListener('click', (e) => {
 	const prevText = prevCalc.innerText;
 	const lastCurText = curText[curText.length - 1];
 	const lastPrevText = prevText[prevText.length - 1];
+	const isLastCurText = (element) => element === lastCurText;
+	const isLastPrevText = (element) => element === lastPrevText;
 
 	if (tool == 'number') {
-		if (lastCurText == '/') {
-			prevCalc.innerText = curText;
-			curCalc.innerText = '';
-		}
-		if (lastCurText == '/') {
-			prevCalc.innerText = curText;
-			curCalc.innerText = '';
-		}
-		if (lastCurText == '/') {
-			prevCalc.innerText = curText;
-			curCalc.innerText = '';
-		}
-		if (lastCurText == '%') {
-			prevCalc.innerText = curText;
-			curCalc.innerText = '';
-		}
-		if (lastCurText == '-') {
-			prevCalc.innerText = curText;
-			curCalc.innerText = '';
-		}
+		operator.forEach((operator) => {
+			if (lastCurText == operator) {
+				prevCalc.innerText = curText;
+				curCalc.innerText = '';
+			}
+		});
+
 		if (curText == '') {
 			curCalc.innerText = buttonContent;
 		} else if (curText == '0') {
@@ -71,11 +61,7 @@ buttons.addEventListener('click', (e) => {
 		if (
 			curText != '' &&
 			!curText.includes(buttonContent) &&
-			lastCurText != '+' &&
-			lastCurText != '-' &&
-			lastCurText != '*' &&
-			lastCurText != '/' &&
-			lastCurText != '%'
+			!operator.some(isLastCurText)
 		) {
 			curCalc.innerText += buttonContent;
 		}
@@ -85,16 +71,8 @@ buttons.addEventListener('click', (e) => {
 		if (
 			lastCurText != '.' &&
 			curText != '' &&
-			lastCurText != '+' &&
-			lastCurText != '-' &&
-			lastCurText != '*' &&
-			lastCurText != '/' &&
-			lastCurText != '%' &&
-			lastPrevText != '+' &&
-			lastPrevText != '-' &&
-			lastPrevText != '*' &&
-			lastPrevText != '/' &&
-			lastPrevText != '%'
+			!operator.some(isLastCurText) &&
+			!operator.some(isLastPrevText)
 		) {
 			curCalc.innerText += buttonContent;
 		}
