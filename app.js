@@ -4,25 +4,39 @@ const curCalc = document.querySelector('#curCalc');
 
 const operator = ['+', '-', '*', '/', '%'];
 
-const calculate = (prevText, curText, lastPrevText, lastCurText) => {
+const calculate = (prevText, curText, lastCurText) => {
 	if (prevText.includes('*') && curText != '' && lastCurText != '.') {
-		curCalc.innerText = parseFloat(prevText) * parseFloat(curText);
+		curCalc.innerText = parseFloat(
+			(parseFloat(prevText) * parseFloat(curText)).toFixed(10)
+		);
 		prevCalc.innerText = '';
 	}
 	if (prevText.includes('+') && curText != '' && lastCurText != '.') {
-		curCalc.innerText = parseFloat(prevText) + parseFloat(curText);
+		curCalc.innerText = parseFloat(
+			(parseFloat(prevText) + parseFloat(curText)).toFixed(10)
+		);
 		prevCalc.innerText = '';
 	}
 	if (prevText.includes('/') && curText != '' && lastCurText != '.') {
-		curCalc.innerText = parseFloat(prevText) / parseFloat(curText);
+		curCalc.innerText = parseFloat(
+			(parseFloat(prevText) / parseFloat(curText)).toFixed(10)
+		);
 		prevCalc.innerText = '';
 	}
 	if (prevText.includes('%') && curText != '' && lastCurText != '.') {
-		curCalc.innerText = parseFloat(prevText) * (parseFloat(curText) / 100);
+		curCalc.innerText = parseFloat(
+			(parseFloat(prevText) * (parseFloat(curText) / 100)).toFixed(10)
+		);
 		prevCalc.innerText = '';
 	}
-	if (lastPrevText == '-' && curText != '' && lastCurText != '.') {
-		curCalc.innerText = parseFloat(prevText) - parseFloat(curText);
+	if (
+		prevText[prevText.length - 1] == '-' &&
+		curText != '' &&
+		lastCurText != '.'
+	) {
+		curCalc.innerText = parseFloat(
+			(parseFloat(prevText) - parseFloat(curText)).toFixed(10)
+		);
 		prevCalc.innerText = '';
 	}
 };
@@ -87,6 +101,15 @@ const operation = (
 	}
 };
 
+const plusMin = (curText) => {
+	if (curText[0] != '-' && curText != '') {
+		const minus = '-';
+		curCalc.innerText = minus + curText;
+	} else if (curText[0] == '-') {
+		curCalc.innerText = curText.slice(1);
+	}
+};
+
 buttons.addEventListener('click', (e) => {
 	const button = e.target;
 	const tool = button.dataset.tool;
@@ -103,12 +126,7 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool == 'plusMin') {
-		if (curText[0] != '-' && curText != '') {
-			const minus = '-';
-			curCalc.innerText = minus + curText;
-		} else if (curText[0] == '-') {
-			curCalc.innerText = curText.slice(1);
-		}
+		plusMin(curText);
 	}
 
 	if (tool == 'clearAll') {
@@ -134,7 +152,7 @@ buttons.addEventListener('click', (e) => {
 	}
 
 	if (tool == 'equal') {
-		calculate(prevText, curText, prevCalc, curCalc, lastPrevText, lastCurText);
+		calculate(prevText, curText, prevCalc, curCalc, lastCurText);
 	}
 });
 
@@ -145,8 +163,6 @@ document.addEventListener('keydown', (e) => {
 	const lastPrevText = prevText[prevText.length - 1];
 	const isLastCurText = (element) => element === lastCurText;
 	const isLastPrevText = (element) => element === lastPrevText;
-
-	// let operators = /[+\-*\/]/g;
 
 	if (e.key == 'Backspace') {
 		clear(curText, prevText);
@@ -166,5 +182,13 @@ document.addEventListener('keydown', (e) => {
 
 	if (e.key.match(/[0-9]/g)) {
 		addNumber(lastCurText, curText, e.key);
+	}
+
+	if (e.key == '_') {
+		plusMin(curText);
+	}
+
+	if (e.key == '=') {
+		calculate(prevText, curText, prevCalc, curCalc, lastCurText);
 	}
 });
