@@ -13,19 +13,19 @@ buttons.addEventListener('click', (e) => {
 	const lastPrevText = prevText[prevText.length - 1];
 
 	if (tool == 'number') {
-		if (curText.includes('+')) {
+		if (lastCurText == '/') {
 			prevCalc.innerText = curText;
 			curCalc.innerText = '';
 		}
-		if (curText.includes('*')) {
+		if (lastCurText == '/') {
 			prevCalc.innerText = curText;
 			curCalc.innerText = '';
 		}
-		if (curText.includes('/')) {
+		if (lastCurText == '/') {
 			prevCalc.innerText = curText;
 			curCalc.innerText = '';
 		}
-		if (curText.includes('%')) {
+		if (lastCurText == '%') {
 			prevCalc.innerText = curText;
 			curCalc.innerText = '';
 		}
@@ -37,7 +37,7 @@ buttons.addEventListener('click', (e) => {
 			curCalc.innerText = buttonContent;
 		} else if (curText == '0') {
 			curCalc.innerText += `.${buttonContent}`;
-		} else {
+		} else if (curText.length < 15) {
 			curCalc.innerText += buttonContent;
 		}
 	}
@@ -58,6 +58,9 @@ buttons.addEventListener('click', (e) => {
 
 	if (tool == 'clear') {
 		curCalc.innerText = curText.slice(0, -1);
+		if (curText.length == 2 && curText[0] == '-') {
+			curCalc.innerText = curText.slice(0, -2);
+		}
 		if (curText == '') {
 			curCalc.innerText = prevText.slice(0, -1);
 			prevCalc.innerText = '';
